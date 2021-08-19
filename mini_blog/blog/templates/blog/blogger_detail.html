@@ -1,0 +1,32 @@
+{% extends "blog/base_template.html" %}
+
+{% block content %}
+<main>
+  <div class="card text-center " style="margin-top:80px; height: 90vh;">
+      <div class="card-body">
+        <a href="{% url 'blog:bloggers' %}"><button style="position: absolute ;left: 15px">Back to Blogger List</button></a>
+        <h1>Blogger: {{ blogger.username }}</h1>
+          <div class="table-responsive mt-5">
+            <p><strong>Full Name:</strong> {{blogger.get_full_name}}</br>
+            <strong>Date Joined:</strong> {{ blogger.date_joined }}</p>
+          </div>
+
+          <div style="margin-left:20px;margin-top:20px">
+              <p><strong>Bio:</strong> <br> 
+                {{ blogger.blogger_bio}}</p>
+          </div>
+
+          <div style="margin-left:20px;margin-top:20px">
+                <p><strong>Blog list:</strong> <br> 
+                    {% for blog in blogger.blogpost_set.all %}
+                      <a href="{% url 'blog:blog_detail' blog.id %} ">{{blog}} &nbsp ({{blog.post_date}}) </a> <br>
+                    {% endfor %}
+                </p>
+          </div>
+
+      </div>
+  </div>
+</main>
+  
+{% endblock %}
+

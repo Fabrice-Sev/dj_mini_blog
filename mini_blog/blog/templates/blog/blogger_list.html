@@ -1,0 +1,63 @@
+{% extends "blog/base_template.html" %}
+
+{% block content %}
+
+<main>
+    <div class="card text-center " style="margin-top:80px; height: 90vh;">
+        <div class="card-body">
+          <h3>All Bloggers</h3>
+            <div class="table-responsive mt-5">
+              {% if blogger_list %}
+            <table class="table table-striped table-hover table-bordered table-sm table-light border-light">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Number of Posts</th>
+                  <th scope="col">Number of Comments</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for blogger in blogger_list %}
+                <tr>
+                  <!-- <th scope="row">{{ i }}</th> -->
+                  <td><a href="{% url 'blog:blogger_detail' blogger.id %}">{{ blogger }}</a></td>
+                  <td>{{blogger.blogpost_set.count}}</td>
+                  <td>{{blogger.user.comment_set.count}}</td>
+                </tr>
+                
+                {% endfor%}
+              </tbody>
+
+              <caption>
+                List of all our {{num_bloggers}} bloggers 
+              </caption>
+                </table>
+                {% else %}
+                <p>There are no bloggers in the Blog App.</p>
+              {% endif %}
+            </div>
+
+            <!-- For pagination (start) -->
+            <div class="pagination">
+              <span class="step-links">
+                  {% if page_obj.has_previous %}
+                      <a href="?page=1">&laquo; first</a> &nbsp
+                      <a href="?page={{ page_obj.previous_page_number }}">previous</a> &nbsp
+                  {% endif %}
+          
+                  <span class="current">
+                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}. 
+                  </span> &nbsp
+          
+                  {% if page_obj.has_next %}
+                      <a href="?page={{ page_obj.next_page_number }}">next</a> &nbsp
+                      <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a> &nbsp
+                  {% endif %}
+              </span>
+          </div>
+          <!-- For pagination (end) -->
+        </div>
+    </div>
+</main>
+
+{% endblock %}

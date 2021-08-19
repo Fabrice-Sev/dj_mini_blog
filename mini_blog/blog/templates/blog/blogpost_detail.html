@@ -1,0 +1,40 @@
+{% extends "blog/base_template.html" %}
+
+{% block content %}
+<main>
+  <div class="card text-center " style="margin-top:80px; height: 90vh;">
+      <div class="card-body">
+        <a href="{% url 'blog:blogs' %}"><button style="position: absolute ;left: 15px">Back to BlogPost List</button></a>
+        <h1>Title: {{ blogpost.name }}</h1>
+          <div class="table-responsive mt-5">
+            <p><strong>Author:</strong> {% if blogpost.blog_author is None %} Unknown {% else %} <a href="{% url 'blog:blogger_detail' blogpost.blog_author.id %}"> {{blogpost.blog_author}}</a> {% endif %}</br>
+            <strong>Post date:</strong> {{ blogpost.post_date }}</p>
+          </div>
+
+          <div style="margin-left:20px;margin-top:20px">
+              <p><strong>Description:</strong> <br> 
+                {{ blogpost.content}}</p>
+          </div>
+
+          <div style="margin-left:20px;margin-top:20px">
+                <p><strong>Comments:</strong> <br> 
+                    {% for comment in blogpost.comment_set.all %}
+                       {{comment.comment_author}} ( {{comment.post_date}} ) : {{ comment.comment_text}} <br>
+                    {% endfor %}
+                </p>
+          </div>
+
+          <div style="margin-left:20px;margin-top:20px">
+            {% if user.is_authenticated %}
+            <a href="{% url 'blog:add_comment' blogpost.id %}">Add a new comment</a>
+            {% else %}
+            <!-- <a href="{% url 'blog:login' %}">Login </a>to add a new comment -->
+            <a href="{% url 'blog:login' %}?next={{request.path|add:'/create'}}">Login </a>to add a new comment
+            {% endif %}
+          </div>
+      </div>
+  </div>
+</main>
+  
+{% endblock %}
+

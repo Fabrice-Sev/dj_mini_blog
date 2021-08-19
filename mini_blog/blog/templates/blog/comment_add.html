@@ -1,0 +1,22 @@
+{% extends "blog/base_template.html" %}
+
+{% block content %}
+
+  <main>
+    <div class="card text-center " style="margin-top:80px; height: 90vh;">
+        <div class="card-body">
+            <h3>Post your comment for:  <a href="{% url 'blog:blog_detail' blogpost.id %}">{{ blogpost.name }} </a></h3> 
+            <div class="table-responsive mt-5">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <table>
+                        {{form.as_table}}
+                    </table>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+ 
+{% endblock %}
